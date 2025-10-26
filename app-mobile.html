@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Puntos Gourmet - App Móvil</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .screen {
+            display: none;
+            min-height: 100vh;
+        }
+        .screen.active {
+            display: block;
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        /* Ocultar scrollbar pero mantener funcionalidad */
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        * {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="bg-zinc-900 text-white">
+
+    <!-- PANTALLA 1: BIENVENIDA -->
+    <div id="screen-bienvenida" class="screen active">
+        <div class="min-h-screen bg-gradient-to-b from-zinc-900 via-zinc-900 to-orange-950 flex flex-col items-center justify-center p-6">
+            <div class="text-center mb-12">
+                <div class="w-32 h-32 mx-auto mb-6 bg-gradient-to-br from-orange-500 to-red-600 rounded-3xl flex items-center justify-center shadow-2xl">
+                    <svg class="w-20 h-20 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                </div>
+                <h1 class="text-4xl font-bold text-white mb-3">Puntos Gourmet</h1>
+                <p class="text-zinc-400 text-lg">Tu pasaporte al sabor</p>
+            </div>
+            
+            <div class="w-full max-w-sm space-y-4">
+                <button onclick="navigateTo('screen-login')" class="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-4 rounded-2xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all">
+                    Iniciar Sesión
+                </button>
+                <button onclick="navigateTo('screen-registro')" class="w-full bg-zinc-800 text-white py-4 rounded-2xl font-semibold text-lg border-2 border-zinc-700 hover:border-orange-500 transition-all">
+                    Crear Cuenta
+                </button>
+                <button onclick="navigateTo('screen-admin-login')" class="w-full bg-zinc-800/50 text-zinc-400 py-3 rounded-2xl font-medium text-sm border border-zinc-700 hover:border-zinc-600 transition-all">
+                    Acceso Administrador
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA 2: LOGIN -->
+    <div id="screen-login" class="screen">
+        <div class="min-h-screen bg-zinc-900 p-6">
+            <button onclick="navigateTo('screen-bienvenida')" class="mb-8 text-zinc-400 flex items-center gap-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Volver
+            </button>
+
+            <div class="mb-12">
+                <h1 class="text-3xl font-bold text-white mb-2">Bienvenido de nuevo</h1>
+                <p class="text-zinc-400">Ingresa tus datos para continuar</p>
+            </div>
+
+            <form onsubmit="event.preventDefault(); navigateTo('screen-home');" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-zinc-300 mb-2">Email</label>
+                    <input type="email" placeholder="tu@email.com" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:border-orange-500 transition-colors">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-zinc-300 mb-2">Contraseña</label>
+                    <input type="password" placeholder="••••••••" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:border-orange-500 transition-colors">
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center gap-2">
+                        <input type="checkbox" class="w-4 h-4 rounded border-zinc-700 bg-zinc-800 text-orange-500">
+                        <span class="text-sm text-zinc-400">Recordarme</span>
+                    </label>
+                    <a href="#" class="text-sm text-orange-500 hover:text-orange-400">¿Olvidaste tu contraseña?</a>
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all">
+                    Iniciar Sesión
+                </button>
+
+                <p class="text-center text-zinc-400 text-sm">
+                    ¿No tienes cuenta? 
+                    <button onclick="navigateTo('screen-registro')" class="text-orange-500 hover:text-orange-400 font-medium">Regístrate</button>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- PANTALLA 3: REGISTRO -->
+    <div id="screen-registro" class="screen">
+        <div class="min-h-screen bg-zinc-900 p-6">
+            <button onclick="navigateTo('screen-bienvenida')" class="mb-8 text-zinc-400 flex items-center gap-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Volver
+            </button>
+
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-white mb-2">Crear Cuenta</h1>
+                <p class="text-zinc-400">Completa tus datos para comenzar</p>
+            </div>
+
+            <form onsubmit="event.preventDefault(); navigateTo('screen-home');" class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium text-zinc-300 mb-2">Nombre completo</label>
+                    <input type="text" placeholder="Juan Pérez" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:border-orange-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-zinc-300 mb-2">Email</label>
+                    <input type="email" placeholder="tu@email.com" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:border-orange-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-zinc-300 mb-2">Teléfono</label>
+                    <input type="tel" placeholder="+54 9 11 1234-5678" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:border-orange-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-zinc-300 mb-2">Contraseña</label>
+                    <input type="password" placeholder="••••••••" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:border-orange-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-zinc-300 mb-2">Confirmar contraseña</label>
+                    <input type="password" placeholder="••••••••" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:border-orange-500">
+                </div>
+
+                <label class="flex items-start gap-3 pt-2">
+                    <input type="checkbox" class="w-4 h-4 mt-1 rounded border-zinc-700 bg-zinc-800 text-orange-500">
+                    <span class="text-sm text-zinc-400">Acepto los términos y condiciones y la política de privacidad</span>
+                </label>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-4 rounded-xl font-semibold text-lg shadow-lg mt-6">
+                    Crear Cuenta
+                </button>
+
+                <p class="text-center text-zinc-400 text-sm">
+                    ¿Ya tienes cuenta? 
+                    <button onclick="navigateTo('screen-login')" class="text-orange-500 hover:text-orange-400 font-medium">Inicia sesión</button>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- PANTALLA 4: HOME -->
+    <div id="screen-home" class="screen">
+        <div class="min-h-screen bg-zinc-900 pb-24">
+            <!-- Header -->
+            <div class="bg-gradient-to-r from-orange-500 to-red-600 p-6 rounded-b-3xl shadow-xl">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <p class="text-orange-100 text-sm">Hola,</p>
+                        <h1 class="text-white text-2xl font-bold">Juan Pérez</h1>
+                    </div>
+                    <button class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Saldo de Puntos -->
+                <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-4 border border-white/20">
+                    <p class="text-orange-100 text-sm mb-1">Saldo de Puntos</p>
+                    <p class="text-white text-4xl font-bold mb-3">2,450</p>
+                    <button onclick="navigateTo('screen-comprar-puntos')" class="w-full bg-white text-orange-600 py-3 rounded-xl font-semibold hover:bg-orange-50 transition-colors">
+                        Comprar Puntos
+                    </button>
+                </div>
+            </div>
+
+            <!-- Gourmet Points -->
+            <div class="px-6 mt-6">
+                <div class="bg-gradient-to-br from-amber-500 to-yellow-600 rounded-2xl p-5 shadow-lg">
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                            </svg>
+                            <span class="text-white font-semibold">Gourmet Points</span>
+                        </div>
+                        <span class="text-white text-2xl font-bold">125 GP</span>
+                    </div>
+                    <p class="text-amber-100 text-sm">Canjea por premios exclusivos</p>
+                </div>
+            </div>
+
+            <!-- Restaurantes -->
+            <div class="px-6 mt-8">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-white text-xl font-bold">Restaurantes</h2>
+                    <button class="text-orange-500 text-sm font-medium">Ver todos</button>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-zinc-800 rounded-2xl p-4 border border-zinc-700">
+                        <div class="flex gap-4">
+                            <div class="w-20 h-20 bg-gradient-to-br from-orange-500 to-red-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <span class="text-white text-2xl font-bold">🍕</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-white font-semibold text-lg mb-1">La Pizzería</h3>
+                                <p class="text-zinc-400 text-sm mb-2">Pizzas artesanales</p>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-yellow-500 text-sm">★★★★★</span>
+                                    <span class="text-zinc-500 text-sm">4.8</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-zinc-800 rounded-2xl p-4 border border-zinc-700">
+                        <div class="flex gap-4">
+                            <div class="w-20 h-20 bg-gradient-to-br from-red-500 to-orange-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <span class="text-white text-2xl font-bold">🍔</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-white font-semibold text-lg mb-1">Burger House</h3>
+                                <p class="text-zinc-400 text-sm mb-2">Hamburguesas gourmet</p>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-yellow-500 text-sm">★★★★★</span>
+                                    <span class="text-zinc-500 text-sm">4.9</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-zinc-800 rounded-2xl p-4 border border-zinc-700">
+                        <div class="flex gap-4">
+                            <div class="w-20 h-20 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <span class="text-white text-2xl font-bold">🍣</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-white font-semibold text-lg mb-1">Sushi Bar</h3>
+                                <p class="text-zinc-400 text-sm mb-2">Cocina japonesa</p>
+                                <div class="flex items-center gap-2">
+                                    <span class="text-yellow-500 text-sm">★★★★★</span>
+                                    <span class="text-zinc-500 text-sm">4.7</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-800 px-6 py-4">
+            <div class="flex items-center justify-around">
+                <button onclick="navigateTo('screen-home')" class="flex flex-col items-center gap-1 text-orange-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Inicio</span>
+                </button>
+                <button onclick="navigateTo('screen-pagar')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Pagar</span>
+                </button>
+                <button onclick="navigateTo('screen-premios')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Premios</span>
+                </button>
+                <button onclick="navigateTo('screen-historial')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Historial</span>
+                </button>
+                <button onclick="navigateTo('screen-perfil')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Perfil</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA 5: COMPRAR PUNTOS -->
+    <div id="screen-comprar-puntos" class="screen">
+        <div class="min-h-screen bg-zinc-900 pb-24">
+            <div class="bg-gradient-to-r from-orange-500 to-red-600 p-6 rounded-b-3xl shadow-xl mb-6">
+                <button onclick="navigateTo('screen-home')" class="mb-4 text-white flex items-center gap-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                    </svg>
+                    Volver
+                </button>
+                <h1 class="text-white text-3xl font-bold">Comprar Puntos</h1>
+                <p class="text-orange-100 mt-2">Selecciona un paquete</p>
+            </div>
+
+            <div class="px-6 space-y-4">
+                <div onclick="navigateTo('screen-datos-transferencia')" class="bg-zinc-800 rounded-2xl p-5 border-2 border-zinc-700 hover:border-orange-500 transition-all cursor-pointer">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-white text-2xl font-bold">500 Puntos</span>
+                        <span class="bg-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">Popular</span>
+                    </div>
+                    <p class="text-zinc-400 text-sm mb-3">Ideal para comenzar</p>
+                    <p class="text-orange-500 text-3xl font-bold">$5,000</p>
+                </div>
+
+                <div onclick="navigateTo('screen-datos-transferencia')" class="bg-zinc-800 rounded-2xl p-5 border-2 border-zinc-700 hover:border-orange-500 transition-all cursor-pointer">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-white text-2xl font-bold">1,000 Puntos</span>
+                        <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">+10% Bonus</span>
+                    </div>
+                    <p class="text-zinc-400 text-sm mb-3">Ahorra más</p>
+                    <p class="text-orange-500 text-3xl font-bold">$9,000</p>
+                </div>
+
+                <div onclick="navigateTo('screen-datos-transferencia')" class="bg-zinc-800 rounded-2xl p-5 border-2 border-zinc-700 hover:border-orange-500 transition-all cursor-pointer">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-white text-2xl font-bold">2,500 Puntos</span>
+                        <span class="bg-amber-500 text-white px-3 py-1 rounded-full text-sm font-semibold">+20% Bonus</span>
+                    </div>
+                    <p class="text-zinc-400 text-sm mb-3">Máximo ahorro</p>
+                    <p class="text-orange-500 text-3xl font-bold">$20,000</p>
+                </div>
+
+                <div onclick="navigateTo('screen-datos-transferencia')" class="bg-zinc-800 rounded-2xl p-5 border-2 border-zinc-700 hover:border-orange-500 transition-all cursor-pointer">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-white text-2xl font-bold">5,000 Puntos</span>
+                        <span class="bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-semibold">+30% Bonus</span>
+                    </div>
+                    <p class="text-zinc-400 text-sm mb-3">Pack premium</p>
+                    <p class="text-orange-500 text-3xl font-bold">$35,000</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA 6: DATOS TRANSFERENCIA -->
+    <div id="screen-datos-transferencia" class="screen">
+        <div class="min-h-screen bg-zinc-900 p-6">
+            <button onclick="navigateTo('screen-comprar-puntos')" class="mb-6 text-zinc-400 flex items-center gap-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Volver
+            </button>
+
+            <h1 class="text-white text-3xl font-bold mb-2">Datos de Transferencia</h1>
+            <p class="text-zinc-400 mb-8">Realiza la transferencia a esta cuenta</p>
+
+            <div class="bg-zinc-800 rounded-2xl p-6 border border-zinc-700 mb-6">
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-zinc-400 text-sm mb-1">Banco</p>
+                        <p class="text-white font-semibold text-lg">Banco Galicia</p>
+                    </div>
+                    <div>
+                        <p class="text-zinc-400 text-sm mb-1">Titular</p>
+                        <p class="text-white font-semibold text-lg">Puntos Gourmet S.A.</p>
+                    </div>
+                    <div>
+                        <p class="text-zinc-400 text-sm mb-1">CBU</p>
+                        <div class="flex items-center justify-between bg-zinc-900 rounded-lg p-3 mt-2">
+                            <p class="text-white font-mono">0070999830000012345678</p>
+                            <button onclick="copyToClipboard('0070999830000012345678')" class="text-orange-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-zinc-400 text-sm mb-1">Alias</p>
+                        <div class="flex items-center justify-between bg-zinc-900 rounded-lg p-3 mt-2">
+                            <p class="text-white font-semibold">PUNTOS.GOURMET</p>
+                            <button onclick="copyToClipboard('PUNTOS.GOURMET')" class="text-orange-500">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-zinc-400 text-sm mb-1">Monto a transferir</p>
+                        <p class="text-orange-500 text-3xl font-bold mt-2">$5,000</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 mb-6">
+                <p class="text-amber-500 text-sm">
+                    <strong>Importante:</strong> Una vez realizada la transferencia, envía el comprobante para que podamos acreditar tus puntos.
+                </p>
+            </div>
+
+            <button onclick="navigateTo('screen-enviar-comprobante')" class="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-4 rounded-xl font-semibold text-lg shadow-lg">
+                Ya realicé la transferencia
+            </button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 7: ENVIAR COMPROBANTE -->
+    <div id="screen-enviar-comprobante" class="screen">
+        <div class="min-h-screen bg-zinc-900 p-6">
+            <button onclick="navigateTo('screen-datos-transferencia')" class="mb-6 text-zinc-400 flex items-center gap-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Volver
+            </button>
+
+            <h1 class="text-white text-3xl font-bold mb-2">Enviar Comprobante</h1>
+            <p class="text-zinc-400 mb-8">Sube tu comprobante de transferencia</p>
+
+            <div class="bg-zinc-800 rounded-2xl p-6 border-2 border-dashed border-zinc-700 mb-6 text-center cursor-pointer hover:border-orange-500 transition-colors">
+                <svg class="w-16 h-16 text-zinc-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                </svg>
+                <p class="text-white font-semibold mb-2">Toca para subir archivo</p>
+                <p class="text-zinc-500 text-sm">JPG, PNG o PDF (máx. 5MB)</p>
+            </div>
+
+            <div class="space-y-4 mb-6">
+                <div>
+                    <label class="block text-sm font-medium text-zinc-300 mb-2">Número de operación (opcional)</label>
+                    <input type="text" placeholder="123456789" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:border-orange-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-zinc-300 mb-2">Comentarios (opcional)</label>
+                    <textarea rows="3" placeholder="Agrega cualquier información adicional..." class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:border-orange-500 resize-none"></textarea>
+                </div>
+            </div>
+
+            <button onclick="showAlert('Comprobante enviado', 'Tu comprobante está siendo revisado. Te notificaremos cuando tus puntos sean acreditados.'); setTimeout(() => navigateTo('screen-home'), 2000);" class="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-4 rounded-xl font-semibold text-lg shadow-lg">
+                Enviar Comprobante
+            </button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 8: PAGAR CON PUNTOS -->
+    <div id="screen-pagar" class="screen">
+        <div class="min-h-screen bg-zinc-900 pb-24">
+            <div class="bg-gradient-to-r from-orange-500 to-red-600 p-6 rounded-b-3xl shadow-xl mb-6">
+                <h1 class="text-white text-3xl font-bold mb-2">Pagar con Puntos</h1>
+                <p class="text-orange-100">Selecciona el restaurante y monto</p>
+            </div>
+
+            <div class="px-6">
+                <form onsubmit="event.preventDefault(); navigateTo('screen-codigo-qr');" class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-zinc-300 mb-3">Restaurante</label>
+                        <select class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-orange-500">
+                            <option>La Pizzería</option>
+                            <option>Burger House</option>
+                            <option>Sushi Bar</option>
+                            <option>Parrilla Don José</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-zinc-300 mb-3">Monto a pagar</label>
+                        <div class="relative">
+                            <input type="number" placeholder="0" value="500" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white text-2xl font-bold focus:outline-none focus:border-orange-500">
+                            <span class="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 font-semibold">Puntos</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-zinc-800 rounded-xl p-4 border border-zinc-700">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-zinc-400">Puntos a transferir</span>
+                            <span class="text-white font-bold text-lg">500</span>
+                        </div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-zinc-400">GP que ganarás</span>
+                            <span class="text-amber-500 font-bold text-lg flex items-center gap-1">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                                </svg>
+                                5 GP
+                            </span>
+                        </div>
+                        <div class="border-t border-zinc-700 pt-2 mt-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-zinc-400">Saldo después del pago</span>
+                                <span class="text-orange-500 font-bold text-lg">1,950</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4">
+                        <p class="text-blue-400 text-sm">
+                            <strong>ℹ️ Cómo funciona:</strong> Los puntos se transferirán al restaurante. El administrador verificará tu pago y lo confirmará.
+                        </p>
+                    </div>
+
+                    <button type="submit" class="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-4 rounded-xl font-semibold text-lg shadow-lg">
+                        Generar Código QR
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-800 px-6 py-4">
+            <div class="flex items-center justify-around">
+                <button onclick="navigateTo('screen-home')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Inicio</span>
+                </button>
+                <button onclick="navigateTo('screen-pagar')" class="flex flex-col items-center gap-1 text-orange-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Pagar</span>
+                </button>
+                <button onclick="navigateTo('screen-premios')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Premios</span>
+                </button>
+                <button onclick="navigateTo('screen-historial')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Historial</span>
+                </button>
+                <button onclick="navigateTo('screen-perfil')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Perfil</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA 9: CÓDIGO QR -->
+    <div id="screen-codigo-qr" class="screen">
+        <div class="min-h-screen bg-zinc-900 p-6">
+            <button onclick="navigateTo('screen-pagar')" class="mb-6 text-zinc-400 flex items-center gap-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Volver
+            </button>
+
+            <div class="text-center mb-8">
+                <h1 class="text-white text-3xl font-bold mb-2">Código QR</h1>
+                <p class="text-zinc-400">Muestra este código al restaurante</p>
+            </div>
+
+            <div class="bg-white rounded-3xl p-8 mb-6">
+                <div class="bg-zinc-900 rounded-2xl p-4 mb-4">
+                    <img src="/placeholder.svg?height=300&width=300" alt="QR Code" class="w-full h-auto">
+                </div>
+                <p class="text-center text-zinc-800 font-mono text-sm">ID: #PG-2024-001234</p>
+            </div>
+
+            <div class="bg-zinc-800 rounded-2xl p-5 border border-zinc-700 mb-6">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-zinc-400">Restaurante</span>
+                    <span class="text-white font-semibold">La Pizzería</span>
+                </div>
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-zinc-400">Monto</span>
+                    <span class="text-orange-500 font-bold text-xl">500 Puntos</span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-zinc-400">Estado</span>
+                    <span class="bg-amber-500/20 text-amber-500 px-3 py-1 rounded-full text-sm font-semibold">Pendiente</span>
+                </div>
+            </div>
+
+            <div class="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4 mb-6">
+                <p class="text-blue-400 text-sm text-center">
+                    El administrador del restaurante escaneará este código para confirmar tu pago
+                </p>
+            </div>
+
+            <button onclick="showAlert('Pago confirmado', 'El restaurante ha confirmado tu pago. ¡Disfruta tu comida!'); setTimeout(() => navigateTo('screen-home'), 2000);" class="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-4 rounded-xl font-semibold text-lg shadow-lg">
+                Simular Confirmación
+            </button>
+        </div>
+    </div>
+
+    <!-- PANTALLA 10: PREMIOS -->
+    <div id="screen-premios" class="screen">
+        <div class="min-h-screen bg-zinc-900 pb-24">
+            <div class="bg-gradient-to-r from-amber-500 to-yellow-600 p-6 rounded-b-3xl shadow-xl mb-6">
+                <h1 class="text-white text-3xl font-bold mb-2">Premios</h1>
+                <p class="text-amber-100">Canjea tus Gourmet Points</p>
+                <div class="bg-white/20 backdrop-blur-lg rounded-xl p-4 mt-4 border border-white/30">
+                    <p class="text-amber-100 text-sm mb-1">Tus Gourmet Points</p>
+                    <p class="text-white text-4xl font-bold">125 GP</p>
+                </div>
+            </div>
+
+            <div class="px-6">
+                <div class="mb-6">
+                    <p class="text-zinc-400 text-sm mb-2">💡 Gana 10 GP por cada 1,000 puntos gastados</p>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-zinc-800 rounded-2xl p-5 border border-zinc-700">
+                        <div class="flex gap-4">
+                            <div class="w-20 h-20 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <span class="text-3xl">🍺</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-white font-semibold text-lg mb-1">Cerveza Artesanal</h3>
+                                <p class="text-zinc-400 text-sm mb-3">Pinta de cerveza en cualquier restaurante</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-amber-500 font-bold flex items-center gap-1">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                                        </svg>
+                                        50 GP
+                                    </span>
+                                    <button class="bg-gradient-to-r from-amber-500 to-yellow-600 text-white px-4 py-2 rounded-lg font-semibold text-sm">
+                                        Canjear
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-zinc-800 rounded-2xl p-5 border border-zinc-700">
+                        <div class="flex gap-4">
+                            <div class="w-20 h-20 bg-gradient-to-br from-red-500 to-orange-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <span class="text-3xl">🍕</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-white font-semibold text-lg mb-1">Pizza Mediana</h3>
+                                <p class="text-zinc-400 text-sm mb-3">Pizza de muzzarella o napolitana</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-amber-500 font-bold flex items-center gap-1">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                                        </svg>
+                                        100 GP
+                                    </span>
+                                    <button class="bg-gradient-to-r from-amber-500 to-yellow-600 text-white px-4 py-2 rounded-lg font-semibold text-sm">
+                                        Canjear
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-zinc-800 rounded-2xl p-5 border border-zinc-700">
+                        <div class="flex gap-4">
+                            <div class="w-20 h-20 bg-gradient-to-br from-orange-500 to-red-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <span class="text-3xl">🍔</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-white font-semibold text-lg mb-1">Hamburguesa Completa</h3>
+                                <p class="text-zinc-400 text-sm mb-3">Con papas fritas y bebida</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-amber-500 font-bold flex items-center gap-1">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                                        </svg>
+                                        120 GP
+                                    </span>
+                                    <button class="bg-gradient-to-r from-amber-500 to-yellow-600 text-white px-4 py-2 rounded-lg font-semibold text-sm">
+                                        Canjear
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-zinc-800 rounded-2xl p-5 border border-zinc-700 opacity-50">
+                        <div class="flex gap-4">
+                            <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                                <span class="text-3xl">🍰</span>
+                            </div>
+                            <div class="flex-1">
+                                <h3 class="text-white font-semibold text-lg mb-1">Postre Premium</h3>
+                                <p class="text-zinc-400 text-sm mb-3">Cheesecake o tiramisú</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-amber-500 font-bold flex items-center gap-1">
+                                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                                        </svg>
+                                        150 GP
+                                    </span>
+                                    <button disabled class="bg-zinc-700 text-zinc-500 px-4 py-2 rounded-lg font-semibold text-sm cursor-not-allowed">
+                                        Insuficiente
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-800 px-6 py-4">
+            <div class="flex items-center justify-around">
+                <button onclick="navigateTo('screen-home')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Inicio</span>
+                </button>
+                <button onclick="navigateTo('screen-pagar')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Pagar</span>
+                </button>
+                <button onclick="navigateTo('screen-premios')" class="flex flex-col items-center gap-1 text-amber-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Premios</span>
+                </button>
+                <button onclick="navigateTo('screen-historial')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Historial</span>
+                </button>
+                <button onclick="navigateTo('screen-perfil')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Perfil</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA 11: HISTORIAL -->
+    <div id="screen-historial" class="screen">
+        <div class="min-h-screen bg-zinc-900 pb-24">
+            <div class="bg-gradient-to-r from-orange-500 to-red-600 p-6 rounded-b-3xl shadow-xl mb-6">
+                <h1 class="text-white text-3xl font-bold">Historial</h1>
+                <p class="text-orange-100 mt-2">Tus últimas transacciones</p>
+            </div>
+
+            <div class="px-6 space-y-4">
+                <div class="bg-zinc-800 rounded-xl p-4 border border-zinc-700">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center">
+                                <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-white font-semibold">Compra de puntos</p>
+                                <p class="text-zinc-400 text-sm">25 Ene 2024, 14:30</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-green-500 font-bold">+500</p>
+                            <span class="bg-green-500/20 text-green-500 px-2 py-1 rounded text-xs font-semibold">Aprobado</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-zinc-800 rounded-xl p-4 border border-zinc-700">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-red-500/20 rounded-full flex items-center justify-center">
+                                <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-white font-semibold">Pago en La Pizzería</p>
+                                <p class="text-zinc-400 text-sm">24 Ene 2024, 20:15</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-red-500 font-bold">-300</p>
+                            <p class="text-amber-500 text-xs font-semibold">+3 GP</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-zinc-800 rounded-xl p-4 border border-zinc-700">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-amber-500/20 rounded-full flex items-center justify-center">
+                                <svg class="w-5 h-5 text-amber-500" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-white font-semibold">Canje: Cerveza Artesanal</p>
+                                <p class="text-zinc-400 text-sm">23 Ene 2024, 19:00</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-amber-500 font-bold">-50 GP</p>
+                            <span class="bg-green-500/20 text-green-500 px-2 py-1 rounded text-xs font-semibold">Canjeado</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-zinc-800 rounded-xl p-4 border border-zinc-700">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-red-500/20 rounded-full flex items-center justify-center">
+                                <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-white font-semibold">Pago en Burger House</p>
+                                <p class="text-zinc-400 text-sm">22 Ene 2024, 13:45</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-red-500 font-bold">-450</p>
+                            <p class="text-amber-500 text-xs font-semibold">+4 GP</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-zinc-800 rounded-xl p-4 border border-zinc-700">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-green-500/20 rounded-full flex items-center justify-center">
+                                <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-white font-semibold">Compra de puntos</p>
+                                <p class="text-zinc-400 text-sm">20 Ene 2024, 10:00</p>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <p class="text-green-500 font-bold">+1,000</p>
+                            <span class="bg-green-500/20 text-green-500 px-2 py-1 rounded text-xs font-semibold">Aprobado</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-800 px-6 py-4">
+            <div class="flex items-center justify-around">
+                <button onclick="navigateTo('screen-home')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Inicio</span>
+                </button>
+                <button onclick="navigateTo('screen-pagar')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Pagar</span>
+                </button>
+                <button onclick="navigateTo('screen-premios')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Premios</span>
+                </button>
+                <button onclick="navigateTo('screen-historial')" class="flex flex-col items-center gap-1 text-orange-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Historial</span>
+                </button>
+                <button onclick="navigateTo('screen-perfil')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Perfil</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA 12: PERFIL -->
+    <div id="screen-perfil" class="screen">
+        <div class="min-h-screen bg-zinc-900 pb-24">
+            <div class="bg-gradient-to-r from-orange-500 to-red-600 p-6 rounded-b-3xl shadow-xl mb-6">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center">
+                        <span class="text-orange-600 text-3xl font-bold">JP</span>
+                    </div>
+                    <div>
+                        <h1 class="text-white text-2xl font-bold">Juan Pérez</h1>
+                        <p class="text-orange-100">juan@email.com</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-6 space-y-4">
+                <div class="bg-zinc-800 rounded-xl border border-zinc-700">
+                    <button class="w-full p-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                            </svg>
+                            <span class="text-white font-medium">Editar Perfil</span>
+                        </div>
+                        <svg class="w-5 h-5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="bg-zinc-800 rounded-xl border border-zinc-700">
+                    <button class="w-full p-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                            </svg>
+                            <span class="text-white font-medium">Cambiar Contraseña</span>
+                        </div>
+                        <svg class="w-5 h-5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="bg-zinc-800 rounded-xl border border-zinc-700">
+                    <button class="w-full p-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                            </svg>
+                            <span class="text-white font-medium">Métodos de Pago</span>
+                        </div>
+                        <svg class="w-5 h-5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="bg-zinc-800 rounded-xl border border-zinc-700">
+                    <button class="w-full p-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                            </svg>
+                            <span class="text-white font-medium">Notificaciones</span>
+                        </div>
+                        <svg class="w-5 h-5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="bg-zinc-800 rounded-xl border border-zinc-700">
+                    <button class="w-full p-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <span class="text-white font-medium">Ayuda y Soporte</span>
+                        </div>
+                        <svg class="w-5 h-5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="bg-zinc-800 rounded-xl border border-zinc-700">
+                    <button class="w-full p-4 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <svg class="w-6 h-6 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <span class="text-white font-medium">Términos y Condiciones</span>
+                        </div>
+                        <svg class="w-5 h-5 text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <button onclick="navigateTo('screen-bienvenida')" class="w-full bg-red-500/20 text-red-500 py-4 rounded-xl font-semibold border border-red-500/30 hover:bg-red-500/30 transition-colors mt-6">
+                    Cerrar Sesión
+                </button>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation -->
+        <div class="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-800 px-6 py-4">
+            <div class="flex items-center justify-around">
+                <button onclick="navigateTo('screen-home')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Inicio</span>
+                </button>
+                <button onclick="navigateTo('screen-pagar')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Pagar</span>
+                </button>
+                <button onclick="navigateTo('screen-premios')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Premios</span>
+                </button>
+                <button onclick="navigateTo('screen-historial')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Historial</span>
+                </button>
+                <button onclick="navigateTo('screen-perfil')" class="flex flex-col items-center gap-1 text-orange-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Perfil</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA 13: ADMIN LOGIN -->
+    <div id="screen-admin-login" class="screen">
+        <div class="min-h-screen bg-zinc-900 p-6">
+            <button onclick="navigateTo('screen-bienvenida')" class="mb-8 text-zinc-400 flex items-center gap-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Volver
+            </button>
+
+            <div class="text-center mb-12">
+                <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl flex items-center justify-center">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold text-white mb-2">Panel Administrador</h1>
+                <p class="text-zinc-400">Acceso para restaurantes</p>
+            </div>
+
+            <form onsubmit="event.preventDefault(); navigateTo('screen-admin-dashboard');" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-zinc-300 mb-2">Email del restaurante</label>
+                    <input type="email" placeholder="admin@restaurante.com" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:border-orange-500">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-zinc-300 mb-2">Contraseña</label>
+                    <input type="password" placeholder="••••••••" class="w-full bg-zinc-800 border border-zinc-700 rounded-xl px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:border-orange-500">
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-orange-500 to-red-600 text-white py-4 rounded-xl font-semibold text-lg shadow-lg">
+                    Acceder al Panel
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- PANTALLA 14: ADMIN DASHBOARD -->
+    <div id="screen-admin-dashboard" class="screen">
+        <div class="min-h-screen bg-zinc-900 pb-24">
+            <div class="bg-gradient-to-r from-orange-500 to-red-600 p-6 rounded-b-3xl shadow-xl mb-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h1 class="text-white text-2xl font-bold">La Pizzería</h1>
+                        <p class="text-orange-100">Panel de administración</p>
+                    </div>
+                    <button onclick="navigateTo('screen-bienvenida')" class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20">
+                        <p class="text-orange-100 text-sm mb-1">Puntos Recibidos Hoy</p>
+                        <p class="text-white text-3xl font-bold">1,250</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-lg rounded-xl p-4 border border-white/20">
+                        <p class="text-orange-100 text-sm mb-1">Pagos Pendientes</p>
+                        <p class="text-white text-3xl font-bold">3</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="px-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-white text-xl font-bold">Últimos Pagos</h2>
+                    <button onclick="navigateTo('screen-admin-solicitudes')" class="text-orange-500 text-sm font-medium">Ver todos</button>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="bg-zinc-800 rounded-xl p-4 border border-zinc-700">
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <p class="text-white font-semibold">Juan Pérez</p>
+                                <p class="text-zinc-400 text-sm">ID: #PG-2024-001234</p>
+                            </div>
+                            <span class="bg-amber-500/20 text-amber-500 px-3 py-1 rounded-full text-xs font-semibold">Pendiente</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-zinc-400 text-sm">Monto</span>
+                            <span class="text-orange-500 font-bold text-lg">500 Puntos</span>
+                        </div>
+                        <div class="flex gap-2 mt-3">
+                            <button onclick="showAlert('Pago aprobado', 'El pago ha sido confirmado exitosamente'); setTimeout(() => navigateTo('screen-admin-dashboard'), 1500);" class="flex-1 bg-green-500 text-white py-2 rounded-lg font-semibold text-sm">
+                                Aprobar
+                            </button>
+                            <button class="flex-1 bg-red-500/20 text-red-500 py-2 rounded-lg font-semibold text-sm border border-red-500/30">
+                                Rechazar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-zinc-800 rounded-xl p-4 border border-zinc-700">
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <p class="text-white font-semibold">María García</p>
+                                <p class="text-zinc-400 text-sm">ID: #PG-2024-001233</p>
+                            </div>
+                            <span class="bg-green-500/20 text-green-500 px-3 py-1 rounded-full text-xs font-semibold">Aprobado</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-zinc-400 text-sm">Monto</span>
+                            <span class="text-orange-500 font-bold text-lg">750 Puntos</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-zinc-800 rounded-xl p-4 border border-zinc-700">
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <p class="text-white font-semibold">Carlos López</p>
+                                <p class="text-zinc-400 text-sm">ID: #PG-2024-001232</p>
+                            </div>
+                            <span class="bg-green-500/20 text-green-500 px-3 py-1 rounded-full text-xs font-semibold">Aprobado</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-zinc-400 text-sm">Monto</span>
+                            <span class="text-orange-500 font-bold text-lg">300 Puntos</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8">
+                    <h2 class="text-white text-xl font-bold mb-4">Estadísticas del Mes</h2>
+                    <div class="bg-zinc-800 rounded-xl p-5 border border-zinc-700">
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between">
+                                <span class="text-zinc-400">Total puntos recibidos</span>
+                                <span class="text-white font-bold text-lg">15,450</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-zinc-400">Pagos aprobados</span>
+                                <span class="text-white font-bold text-lg">47</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-zinc-400">Promedio por pago</span>
+                                <span class="text-white font-bold text-lg">329 pts</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation Admin -->
+        <div class="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-800 px-6 py-4">
+            <div class="flex items-center justify-around">
+                <button onclick="navigateTo('screen-admin-dashboard')" class="flex flex-col items-center gap-1 text-orange-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Dashboard</span>
+                </button>
+                <button onclick="navigateTo('screen-admin-solicitudes')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Solicitudes</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PANTALLA 15: ADMIN SOLICITUDES -->
+    <div id="screen-admin-solicitudes" class="screen">
+        <div class="min-h-screen bg-zinc-900 pb-24">
+            <div class="bg-gradient-to-r from-orange-500 to-red-600 p-6 rounded-b-3xl shadow-xl mb-6">
+                <h1 class="text-white text-3xl font-bold">Solicitudes de Pago</h1>
+                <p class="text-orange-100 mt-2">Gestiona los pagos pendientes</p>
+            </div>
+
+            <div class="px-6">
+                <div class="flex gap-2 mb-6">
+                    <button class="flex-1 bg-orange-500 text-white py-2 rounded-lg font-semibold text-sm">
+                        Pendientes (3)
+                    </button>
+                    <button class="flex-1 bg-zinc-800 text-zinc-400 py-2 rounded-lg font-semibold text-sm">
+                        Aprobadas
+                    </button>
+                    <button class="flex-1 bg-zinc-800 text-zinc-400 py-2 rounded-lg font-semibold text-sm">
+                        Rechazadas
+                    </button>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-zinc-800 rounded-xl p-5 border border-zinc-700">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <p class="text-white font-bold text-lg">Juan Pérez</p>
+                                <p class="text-zinc-400 text-sm">juan@email.com</p>
+                                <p class="text-zinc-500 text-xs mt-1">25 Ene 2024, 14:30</p>
+                            </div>
+                            <span class="bg-amber-500/20 text-amber-500 px-3 py-1 rounded-full text-xs font-semibold">Pendiente</span>
+                        </div>
+                        
+                        <div class="bg-zinc-900 rounded-lg p-3 mb-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-zinc-400 text-sm">ID de transacción</span>
+                                <span class="text-white font-mono text-sm">#PG-2024-001234</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-zinc-400 text-sm">Monto</span>
+                                <span class="text-orange-500 font-bold text-xl">500 Puntos</span>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button onclick="showAlert('Pago aprobado', 'Los puntos han sido transferidos a tu cuenta'); setTimeout(() => location.reload(), 1500);" class="flex-1 bg-green-500 text-white py-3 rounded-lg font-semibold">
+                                ✓ Aprobar
+                            </button>
+                            <button class="flex-1 bg-red-500/20 text-red-500 py-3 rounded-lg font-semibold border border-red-500/30">
+                                ✕ Rechazar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-zinc-800 rounded-xl p-5 border border-zinc-700">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <p class="text-white font-bold text-lg">Ana Martínez</p>
+                                <p class="text-zinc-400 text-sm">ana@email.com</p>
+                                <p class="text-zinc-500 text-xs mt-1">25 Ene 2024, 13:15</p>
+                            </div>
+                            <span class="bg-amber-500/20 text-amber-500 px-3 py-1 rounded-full text-xs font-semibold">Pendiente</span>
+                        </div>
+                        
+                        <div class="bg-zinc-900 rounded-lg p-3 mb-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-zinc-400 text-sm">ID de transacción</span>
+                                <span class="text-white font-mono text-sm">#PG-2024-001235</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-zinc-400 text-sm">Monto</span>
+                                <span class="text-orange-500 font-bold text-xl">850 Puntos</span>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button onclick="showAlert('Pago aprobado', 'Los puntos han sido transferidos a tu cuenta'); setTimeout(() => location.reload(), 1500);" class="flex-1 bg-green-500 text-white py-3 rounded-lg font-semibold">
+                                ✓ Aprobar
+                            </button>
+                            <button class="flex-1 bg-red-500/20 text-red-500 py-3 rounded-lg font-semibold border border-red-500/30">
+                                ✕ Rechazar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-zinc-800 rounded-xl p-5 border border-zinc-700">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <p class="text-white font-bold text-lg">Pedro Sánchez</p>
+                                <p class="text-zinc-400 text-sm">pedro@email.com</p>
+                                <p class="text-zinc-500 text-xs mt-1">25 Ene 2024, 12:00</p>
+                            </div>
+                            <span class="bg-amber-500/20 text-amber-500 px-3 py-1 rounded-full text-xs font-semibold">Pendiente</span>
+                        </div>
+                        
+                        <div class="bg-zinc-900 rounded-lg p-3 mb-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-zinc-400 text-sm">ID de transacción</span>
+                                <span class="text-white font-mono text-sm">#PG-2024-001236</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-zinc-400 text-sm">Monto</span>
+                                <span class="text-orange-500 font-bold text-xl">1,200 Puntos</span>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-2">
+                            <button onclick="showAlert('Pago aprobado', 'Los puntos han sido transferidos a tu cuenta'); setTimeout(() => location.reload(), 1500);" class="flex-1 bg-green-500 text-white py-3 rounded-lg font-semibold">
+                                ✓ Aprobar
+                            </button>
+                            <button class="flex-1 bg-red-500/20 text-red-500 py-3 rounded-lg font-semibold border border-red-500/30">
+                                ✕ Rechazar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Navigation Admin -->
+        <div class="fixed bottom-0 left-0 right-0 bg-zinc-900 border-t border-zinc-800 px-6 py-4">
+            <div class="flex items-center justify-around">
+                <button onclick="navigateTo('screen-admin-dashboard')" class="flex flex-col items-center gap-1 text-zinc-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Dashboard</span>
+                </button>
+                <button onclick="navigateTo('screen-admin-solicitudes')" class="flex flex-col items-center gap-1 text-orange-500">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"></path>
+                    </svg>
+                    <span class="text-xs font-medium">Solicitudes</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alert Modal -->
+    <div id="alert-modal" class="fixed inset-0 bg-black/80 backdrop-blur-sm hidden items-center justify-center z-50 p-6">
+        <div class="bg-zinc-800 rounded-2xl p-6 max-w-sm w-full border border-zinc-700 shadow-2xl">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                </div>
+                <h3 id="alert-title" class="text-white text-xl font-bold mb-2"></h3>
+                <p id="alert-message" class="text-zinc-400"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function navigateTo(screenId) {
+            // Ocultar todas las pantallas
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // Mostrar la pantalla seleccionada
+            const targetScreen = document.getElementById(screenId);
+            if (targetScreen) {
+                targetScreen.classList.add('active');
+                targetScreen.classList.add('fade-in');
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showAlert('¡Copiado!', 'El texto ha sido copiado al portapapeles');
+            });
+        }
+
+        function showAlert(title, message) {
+            const modal = document.getElementById('alert-modal');
+            const titleEl = document.getElementById('alert-title');
+            const messageEl = document.getElementById('alert-message');
+            
+            titleEl.textContent = title;
+            messageEl.textContent = message;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 2000);
+        }
+
+        // Prevenir zoom en inputs en iOS
+        document.addEventListener('touchstart', function(e) {
+            if (e.touches.length > 1) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+    </script>
+</body>
+</html>
